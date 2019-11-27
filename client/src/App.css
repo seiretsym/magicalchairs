@@ -20,3 +20,18 @@
 .App-link {
   color: #09d3ac;
 }
+
+.btn-clear {
+  background-color: transparent;
+  border: none;
+  color: white;
+}
+
+.btn-clear:hover {
+  color: lightgray;
+}
+
+button {
+  box-shadow: none !important;
+  outline: none !important;
+}
