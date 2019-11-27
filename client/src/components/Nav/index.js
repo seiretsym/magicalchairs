@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Main from "../../pages/Main";
 import Students from "../../pages/Students";
+import Arrange from "../../pages/Arrange";
 
 
 class Nav extends Component {
@@ -14,8 +15,7 @@ class Nav extends Component {
             </button>
             <div className="dropdown-menu bg-secondary" aria-labelledby="dropdownMenuButton">
               <button className="dropdown-item bg-secondary btn btn-clear" onClick={() => this.props.changeDisplay(<Students />)}>View Students</button>
-              <a className="dropdown-item bg-secondary text-light" href="#s">Edit Student</a>
-              <a className="dropdown-item bg-secondary text-light" href="#d">Something else here</a>
+              <button className="dropdown-item bg-secondary text-light" onClick={() => this.props.changeDisplay(<Arrange />)}>Arrange Seats</button>
             </div>
           </div>
         )

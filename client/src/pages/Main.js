@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Row from "../components/Row";
+import API from "../utils";
 
 class Main extends Component {
   state = {
@@ -22,48 +23,17 @@ class Main extends Component {
     this.setState({
       students: temp,
     })
-
     console.log(this.state.students)
   }
 
   componentDidMount() {
-    let students = [
-      {
-        name: "Kerwin Hy 1"
-      },
-      {
-        name: "Kerwin Hy 2"
-      },
-      {
-        name: "Kerwin Hy 3"
-      },
-      {
-        name: "Kerwin Hy 4"
-      },
-      {
-        name: "Kerwin Hy 5"
-      },
-      {
-        name: "Kerwin Hy 6"
-      },
-      {
-        name: "Kerwin Hy 7"
-      },
-      {
-        name: "Kerwin Hy 8"
-      },
-      {
-        name: "Kerwin Hy 9"
-      },
-      {
-        name: "Kerwin Hy 10"
-      },
-      {
-        name: "Kerwin Hy 11"
-      },
-    ]
+    API.getSeatArrangement().then(students => {
+      console.log(students.data[0].seating)
+      if (students.data[0].seating.length > 0) {
 
-    this.sortStudents(students);
+        this.sortStudents(students.data[0].seating);
+      }
+    }).catch(error => console.log(error));
   }
 
   render() {

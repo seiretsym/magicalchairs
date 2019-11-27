@@ -4,7 +4,6 @@ import Header from './components/Header';
 import Nav from './components/Nav';
 // pages
 import Main from './pages/Main';
-import Students from './pages/Students';
 
 // stylesheets
 import './App.css';
@@ -12,8 +11,8 @@ import './App.css';
 class App extends Component {
 
   state = {
-    authed: true,
-    display: <Students />
+    authed: false,
+    display: <Main />
   }
 
   auth = () => {

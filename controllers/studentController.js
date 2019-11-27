@@ -7,8 +7,8 @@ module.exports = {
   findOne: function (req, res) {
     db.Student
       .find({ _id: ObjectId(req.params.id) })
-      .populate("yep")
       .populate("nope")
+      .populate("yep")
       .then(student => {
         console.log(student);
         res.status(200).json(student);
@@ -17,6 +17,7 @@ module.exports = {
   find: function (req, res) {
     db.Student
       .find({})
+      .populate("yep")
       .then(students => {
         console.log(students);
         res.status(200).json(students);

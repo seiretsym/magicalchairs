@@ -286,6 +286,43 @@ class Students extends Component {
             </div>
           </div >
         )
+      case "paired":
+        return (
+          <div>
+            <div className="input-group mb-2">
+              <div className="input-group-prepend bg-dark">
+                <span className="input-group-text bg-dark text-light w-100">Student</span>
+              </div>
+              <select className="custom-select bg-dark text-light" id="studentSelect" onChange={event => this.handleSelect(event)}>
+                <option value="none">Choose...</option>
+                {this.state.students.map((student, index) => {
+                  return <option value={student._id} key={index}>{student.name}</option>
+                })}
+              </select>
+            </div>
+            <div className="row">
+              <div className="col-md bg-dark rounded mx-3 p-3">
+                <h5>{this.state.selectedStudent.name} has paired with...</h5>
+                <hr />
+                {this.state.selectedStudent.yep.map((student, index) => {
+                  return (
+                    <div className="input-group mb-2" key={index}>
+                      <div className="input-group-prepend bg-dark">
+                        <span className="input-group-text bg-dark text-light w-100">{student.name}</span>
+                      </div>
+                      <div className="input-group-prepend bg-dark">
+                        <span className="input-group-text bg-dark text-light w-100">{student._id}</span>
+                      </div>
+                      <div className="input-group-append">
+                        <button className="btn btn-dark btn-outline-light" type="button" onClick={() => this.handleEthicRemove(student._id)}>&times;</button>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+        )
       default:
         return (
           <div>
@@ -307,6 +344,9 @@ class Students extends Component {
           </li>
           <li name="nav" id="ethics" className="nav-item rounded mr-3">
             <button className="nav-link btn btn-clear p-2" onClick={() => this.changeDisplay("ethics")}>Work Ethics</button>
+          </li>
+          <li name="nav" id="paired" className="nav-item rounded mr-3">
+            <button className="nav-link btn btn-clear p-2" onClick={() => this.changeDisplay("paired")}>Partner History</button>
           </li>
         </ul>
         <hr />

@@ -18,9 +18,15 @@ export default {
     return axios.delete("/api/students/" + id);
   },
   blockStudent: function (data) {
-    return axios.put("/api/students/block", data)
+    return axios.put("/api/students/block", data);
   },
   unblockStudent: function (data) {
-    return axios.put("/api/students/unblock", data)
+    return axios.put("/api/students/unblock", data);
+  },
+  getSeatArrangement: function () {
+    return axios.get("/api/seats");
+  },
+  updateSeatArrangement: function (seating) {
+    return axios.put("/api/seats", seating)
   }
 }
