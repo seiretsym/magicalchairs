@@ -35,3 +35,17 @@ button {
   box-shadow: none !important;
   outline: none !important;
 }
+
+.card-container {
+  position: relative;
+}
+
+.edit {
+  position: absolute;
+  top: 0px;
+  width: 250px;
+}
+
+.student {
+  width: 250px;
+}

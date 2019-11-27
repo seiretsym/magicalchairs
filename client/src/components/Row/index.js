@@ -5,10 +5,6 @@ class Row extends Component {
 
   render() {
 
-    let blank = {
-      name: "empty",
-    }
-
     return (
       <div className="mb-3">
         <span>Row {this.props.row + 1}</span>
@@ -19,7 +15,7 @@ class Row extends Component {
                 if (index < 4) {
                   return <Seat student={student} key={"l" + this.props.row + "-" + index} />
                 } else {
-                  return
+                  return <div key={"l" + this.props.row + "-" + index} />
                 }
               })}
             </div>
@@ -30,7 +26,7 @@ class Row extends Component {
                 if (index > 3) {
                   return <Seat student={student} key={"r" + this.props.row + "-" + index} />
                 } else {
-                  return
+                  return <div key={"l" + this.props.row + "-" + index} />
                 }
               })}
             </div>

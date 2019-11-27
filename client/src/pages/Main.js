@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Row from "../components/Row";
 
 class Main extends Component {
-
   state = {
     students: [],
   }
@@ -68,7 +67,6 @@ class Main extends Component {
   }
 
   render() {
-
     return (
       <div className="bg-secondary rounded py-1 px-3">
         <h1>Current Seating</h1>
@@ -80,8 +78,6 @@ class Main extends Component {
       </div>
     )
   }
-
-
 }
 
 export default Main;
