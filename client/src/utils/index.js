@@ -5,6 +5,9 @@ export default {
   getStudents: function () {
     return axios.get("/api/students");
   },
+  getStudent: function (id) {
+    return axios.get("/api/students/" + id);
+  },
   addStudent: function (student) {
     return axios.post("/api/students", student);
   },
@@ -13,5 +16,11 @@ export default {
   },
   removeStudent: function (id) {
     return axios.delete("/api/students/" + id);
+  },
+  blockStudent: function (data) {
+    return axios.put("/api/students/block", data)
+  },
+  unblockStudent: function (data) {
+    return axios.put("/api/students/unblock", data)
   }
 }

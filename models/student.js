@@ -16,11 +16,11 @@ const studentSchema = new Schema({
   },
   yep: [{
     type: Schema.Types.ObjectId,
-    ref: "Student"
+    ref: "Student",
   }],
   nope: [{
     type: Schema.Types.ObjectId,
-    ref: "Student"
+    ref: "Student",
   }]
 });
 

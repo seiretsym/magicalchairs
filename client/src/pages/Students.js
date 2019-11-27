@@ -5,6 +5,12 @@ import API from "../utils";
 class Students extends Component {
   state = {
     students: [],
+    selectedStudent: {
+      _id: "null",
+      name: "null",
+      yep: [],
+      nope: [],
+    },
     display: "add",
   }
 
@@ -95,7 +101,58 @@ class Students extends Component {
     API.removeStudent(id).then(this.getStudents)
   }
 
+  handleEthicAdd = () => {
+    let cantSelect = document.getElementById("cantSelect");
+    let id = cantSelect.options[cantSelect.selectedIndex].value;
+    let data = {
+      id: this.state.selectedStudent._id,
+      blockId: id,
+    }
+    API.blockStudent(data)
+      .then(() => {
+        this.getSelectedStudent(this.state.selectedStudent._id)
+      })
+      .catch(error => {
+        console.log(error)
+      });
+  }
+
+  handleEthicRemove = id => {
+    let data = {
+      id: this.state.selectedStudent._id,
+      blockId: id,
+    }
+    API.unblockStudent(data)
+      .then(() => {
+        this.getSelectedStudent(this.state.selectedStudent._id);
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  }
+
+  getSelectedStudent = id => {
+    API.getStudent(id).then(student => {
+      this.setState({
+        selectedStudent: student.data[0],
+      })
+    })
+  }
+
+  handleSelect = event => {
+    let select = document.getElementById("studentSelect");
+    let student = select.options[select.selectedIndex].value;
+    if (student !== "none") {
+      this.getSelectedStudent(student);
+    }
+  }
+
   changeDisplay = page => {
+    let navs = document.getElementsByName("nav");
+    for (let i = 0; i < navs.length; i++) {
+      navs[i].classList.remove("bg-dark");
+    }
+    document.getElementById(page).classList.add("bg-dark")
     this.setState({
       display: page,
     })
@@ -119,7 +176,7 @@ class Students extends Component {
         )
       case "add":
         return (
-          <form className="p-3 bg-dark rounded mb-3">
+          <form className="p-3 bg-dark rounded">
             <div className="form-group">
               <label>Student Name</label>
               <div className="form-check form-check-inline ml-3">
@@ -175,6 +232,60 @@ class Students extends Component {
             <button className="btn btn-secondary" onClick={(event) => this.addStudent(event)}>Add Student</button>
           </form>
         )
+      case "ethics":
+        return (
+          <div>
+            <div className="input-group mb-2">
+              <div className="input-group-prepend bg-dark">
+                <span className="input-group-text bg-dark text-light w-100">Student</span>
+              </div>
+              <select className="custom-select bg-dark text-light" id="studentSelect" onChange={event => this.handleSelect(event)}>
+                <option value="none">Choose...</option>
+                {this.state.students.map((student, index) => {
+                  return <option value={student._id} key={index}>{student.name}</option>
+                })}
+              </select>
+            </div>
+            <div className="input-group mb-2">
+              <div className="input-group-prepend bg-dark">
+                <span className="input-group-text bg-dark text-light w-100">Can't work with</span>
+              </div>
+              <select className="custom-select bg-dark text-light" id="cantSelect">
+                <option value="none">Choose...</option>
+                {this.state.students.map((student, index) => {
+                  if (student._id !== this.state.selectedStudent._id && this.state.selectedStudent.nope.map(target => target._id).indexOf(student._id) === -1) {
+                    return <option value={student._id} key={index}>{student.name}</option>
+                  }
+                  return null;
+                })}
+              </select>
+              <div className="input-group-append">
+                <button className="btn btn-dark btn-outline-light" type="button" onClick={() => this.handleEthicAdd()}>Add</button>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md bg-dark rounded mx-3 p-3">
+                <h5>{this.state.selectedStudent.name} can't work with...</h5>
+                <hr />
+                {this.state.selectedStudent.nope.map((student, index) => {
+                  return (
+                    <div className="input-group mb-2" key={index}>
+                      <div className="input-group-prepend bg-dark">
+                        <span className="input-group-text bg-dark text-light w-100">{student.name}</span>
+                      </div>
+                      <div className="input-group-prepend bg-dark">
+                        <span className="input-group-text bg-dark text-light w-100">{student._id}</span>
+                      </div>
+                      <div className="input-group-append">
+                        <button className="btn btn-dark btn-outline-light" type="button" onClick={() => this.handleEthicRemove(student._id)}>&times;</button>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          </div >
+        )
       default:
         return (
           <div>
@@ -186,14 +297,16 @@ class Students extends Component {
 
   render() {
     return (
-      <div className="bg-secondary rounded py-1 px-3">
-        <h1>Students</h1>
+      <div className="bg-secondary rounded py-3 px-3">
         <ul className="nav">
-          <li className="nav-item">
-            <button className="nav-link btn btn-clear p-0 mr-3" onClick={() => this.changeDisplay("view")}>View Students</button>
+          <li name="nav" id="view" className="nav-item bg-dark rounded mr-3">
+            <button className="nav-link btn btn-clear p-2" onClick={() => this.changeDisplay("view")}>View Students</button>
           </li>
-          <li className="nav-item">
-            <button className="nav-link btn btn-clear p-0" onClick={() => this.changeDisplay("add")}>Add Student</button>
+          <li name="nav" id="add" className="nav-item rounded mr-3">
+            <button className="nav-link btn btn-clear p-2" onClick={() => this.changeDisplay("add")}>Add Student</button>
+          </li>
+          <li name="nav" id="ethics" className="nav-item rounded mr-3">
+            <button className="nav-link btn btn-clear p-2" onClick={() => this.changeDisplay("ethics")}>Work Ethics</button>
           </li>
         </ul>
         <hr />
