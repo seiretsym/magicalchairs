@@ -28,5 +28,8 @@ export default {
   },
   updateSeatArrangement: function (seating) {
     return axios.put("/api/seats", seating)
+  },
+  unpairStudent: function (data) {
+    return axios.put("/api/students/unpair", data)
   }
 }

@@ -25,11 +25,11 @@ module.exports = {
     // update each user's yep
     Promise.all(arrangement.map(each => {
       let id = each._id;
-      console.log(id)
+      // console.log(id)
       let promise = new Promise((resolve, reject) => {
         each.yep.map((student, index) => {
           let yid = student;
-          console.log(yid)
+          // console.log(yid)
           let timer = setTimeout(() => {
             db.Student
               .updateOne({ _id: id }, { $addToSet: { yep: yid } })

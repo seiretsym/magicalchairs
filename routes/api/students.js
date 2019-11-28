@@ -9,6 +9,8 @@ router.route("/block")
   .put(studentController.blockOne);
 router.route("/unblock")
   .put(studentController.unblockOne);
+router.route("/unpair")
+  .put(studentController.unpairOne);
 router.route("/:id")
   .get(studentController.findOne)
   .put(studentController.update)

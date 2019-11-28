@@ -10,16 +10,30 @@ class Main extends Component {
   sortStudents = (students) => {
     let rows = Math.ceil(students.length / 8)
     let temp = [];
-    for (let i = 0; i < rows; i++) {
+
+    // now we split the students into subarrays for each column in a row
+    for (let m = 0; m < rows; m++) {
       let seats = []
-      for (let j = i * 8; j < i * 8 + 8; j++) {
-        if (students[j]) {
-          seats.push(students[j])
+      for (let n = m * 8; n < m * 8 + 8; n++) {
+        if (students[n]) {
+          if (students.length % 8 === 1 && m === rows - 1 && n === students.length - 1) {
+            seats.push(students[n - 2]);
+            seats.push(students[n - 1]);
+            seats.push(students[n])
+            n += 8;
+          } else {
+            seats.push(students[n])
+            if (students.length % 8 === 1 && m === rows - 2 && (n % 8 === 2 || n % 8 === 5)) {
+              seats.push("");
+              if (seats.length === 8) {
+                n += 8;
+              }
+            }
+          }
         }
       }
       temp.push(seats);
     }
-
     this.setState({
       students: temp,
     })

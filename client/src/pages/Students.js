@@ -131,6 +131,20 @@ class Students extends Component {
       })
   }
 
+  handlePairRemove = id => {
+    let data = {
+      id: this.state.selectedStudent._id,
+      pairId: id,
+    }
+    API.unpairStudent(data)
+      .then(() => {
+        this.getSelectedStudent(this.state.selectedStudent._id);
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  }
+
   getSelectedStudent = id => {
     API.getStudent(id).then(student => {
       this.setState({
@@ -314,7 +328,7 @@ class Students extends Component {
                         <span className="input-group-text bg-dark text-light w-100">{student._id}</span>
                       </div>
                       <div className="input-group-append">
-                        <button className="btn btn-dark btn-outline-light" type="button" onClick={() => this.handleEthicRemove(student._id)}>&times;</button>
+                        <button className="btn btn-dark btn-outline-light" type="button" onClick={() => this.handlePairRemove(student._id)}>&times;</button>
                       </div>
                     </div>
                   )

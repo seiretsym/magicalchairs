@@ -102,5 +102,24 @@ module.exports = {
         console.log(error);
         res.status(500).json(error);
       })
+  },
+  unpairOne: function (req, res) {
+    let id = ObjectId(req.body.id);
+    let pairId = ObjectId(req.body.pairId);
+    db.Student
+      .updateOne({ _id: id }, { $pull: { yep: pairId } })
+      .then(uhoh => {
+        console.log(uhoh)
+        db.Student
+          .updateOne({ _id: pairId }, { $pull: { yep: id } })
+          .then(ruhroh => {
+            console.log(ruhroh);
+            res.status(200).json(ruhroh);
+          })
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).json(error);
+      })
   }
 };

@@ -13,7 +13,6 @@ class Arrange extends Component {
     let seated = [];
     let arranged = [];
     let copy = this.shuffle(students);
-    console.log(students)
 
     // first, determine best matches per student
     for (let i = 0; i < copy.length; i++) {
@@ -71,13 +70,25 @@ class Arrange extends Component {
         }
       }
     }
-
     // now we split the students into subarrays for each column in a row
     for (let m = 0; m < rows; m++) {
       let seats = []
       for (let n = m * 8; n < m * 8 + 8; n++) {
         if (students[n]) {
-          seats.push(students[n])
+          if (students.length % 8 === 1 && m === rows - 1 && n === students.length - 1) {
+            seats.push(students[n - 2]);
+            seats.push(students[n - 1]);
+            seats.push(students[n])
+            n += 8;
+          } else {
+            seats.push(students[n])
+            if (students.length % 8 === 1 && m === rows - 2 && (n % 8 === 2 || n % 8 === 5)) {
+              seats.push("");
+              if (seats.length === 8) {
+                n += 8;
+              }
+            }
+          }
         }
       }
       arranged.push(seats);
@@ -106,20 +117,46 @@ class Arrange extends Component {
   saveArrangement = () => {
     let data = [];
     for (let z = 0; z < this.state.students.length; z++) {
-      for (let y = 0; y < 8; y += 2) {
-        let subdata = this.state.students[z];
-        if (subdata[y]) {
-          if (subdata[y + 1]) {
-            subdata[y].yep.push(subdata[y + 1]._id);
-            subdata[y + 1].yep.push(subdata[y]._id);
-            data.push(subdata[y]);
-            data.push(subdata[y + 1]);
-          } else {
-            data.push(subdata[y]);
+      for (let y = 0; y < 8; y++) {
+        let subdata = this.state.students[z].slice();
+        if (subdata[y] === "" || !subdata[y]) {
+          y++;
+        } else {
+          if (subdata[y]) {
+            if (y % 4 === 0 && (subdata[y + 3] === "" || !subdata[y + 3])) {
+              for (let x = 0; x < 3; x++) {
+                for (let w = 0; w < 3; w++) {
+                  if (subdata[y + x] !== subdata[y + w]) {
+                    subdata[y + x].yep.push(subdata[y + w]._id)
+                  }
+                }
+                data.push(subdata[y + x]);
+              }
+              y += 3;
+            } else if (subdata[y + 1] && subdata[y + 1] !== "") {
+              subdata[y].yep.push(subdata[y + 1]._id);
+              subdata[y + 1].yep.push(subdata[y]._id);
+              data.push(subdata[y]);
+              data.push(subdata[y + 1]);
+              y++;
+            }
           }
         }
       }
     }
+
+    // clean up array mess
+    for (let ii = 0; ii < data.length; ii++) {
+      let temp = [];
+      for (let jj = 0; jj < data[ii].yep.length; jj++) {
+        if (typeof data[ii].yep[jj] === "string") {
+          temp.push(data[ii].yep[jj]);
+        }
+      }
+      data[ii].yep = temp;
+    }
+
+    // send to server
     API.updateSeatArrangement(data)
       .then(() => {
         alert("New Seating Saved! All students' are now associated with their new partners, so it's unlikely they'll be paired with each other again.");

@@ -11,7 +11,7 @@ import './App.css';
 class App extends Component {
 
   state = {
-    authed: false,
+    authed: true,
     display: <Main />
   }
 
