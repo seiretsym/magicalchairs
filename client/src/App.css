@@ -49,3 +49,7 @@ button {
 .student {
   width: 250px;
 }
+
+.seat {
+  height: 74px !important;
+}

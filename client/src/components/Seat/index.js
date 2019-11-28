@@ -5,9 +5,9 @@ class Seat extends Component {
   render() {
     let Name = () => {
       if (this.props.student === "") {
-        return <li className="list-group-item bg-dark text-dark w-25">&sp;</li>
+        return <li className="list-group-item bg-dark text-dark w-25 seat">&sp;</li>
       } else {
-        return <li className="list-group-item bg-dark text-light w-25">{this.props.student.name}</li>
+        return <li className="list-group-item bg-dark text-light w-25 seat">{this.props.student.name}</li>
       }
     }
     return (
