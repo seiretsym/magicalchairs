@@ -13,6 +13,7 @@ class Arrange extends Component {
     let seated = [];
     let arranged = [];
     let copy = this.shuffle(students);
+    let blanks = 0;
 
     // first, determine best matches per student
     for (let i = 0; i < copy.length; i++) {
@@ -76,16 +77,33 @@ class Arrange extends Component {
       for (let n = m * 8; n < m * 8 + 8; n++) {
         if (students[n]) {
           if (students.length % 8 === 1 && m === rows - 1 && n === students.length - 1) {
-            seats.push(students[n - 2]);
-            seats.push(students[n - 1]);
-            seats.push(students[n])
+            // console.log(blanks)
+            for (let o = blanks; o >= 0; o--) {
+              seats.push(students[n - o]);
+            }
             n += 8;
           } else {
-            seats.push(students[n])
-            if (students.length % 8 === 1 && m === rows - 2 && (n % 8 === 2 || n % 8 === 5)) {
-              seats.push("");
-              if (seats.length === 8) {
-                n += 8;
+            if (students.length % 8 === 1) {
+              if (students.length % 8 === 1 && m === rows - 2 && (n % 8 === 2 || n % 8 === 5)) {
+                seats.push(students[n])
+                seats.push("");
+                blanks++
+                if (seats.length === 8) {
+                  n += 8;
+                }
+              } else {
+                seats.push(students[n])
+              }
+            } else {
+              if (students.length % 4 === 1 && m === rows - 1 && (n % 4 === 2)) {
+                seats.push(students[n])
+                seats.push("");
+                blanks++
+                if (seats.length === 8) {
+                  n += 8;
+                }
+              } else {
+                seats.push(students[n])
               }
             }
           }
@@ -123,7 +141,17 @@ class Arrange extends Component {
           y++;
         } else {
           if (subdata[y]) {
-            if (y % 4 === 0 && (subdata[y + 3] === "" || !subdata[y + 3])) {
+            if (y % 4 === 0 && (subdata[y + 2] === "" || !subdata[y + 2])) {
+              for (let x = 0; x < 2; x++) {
+                for (let w = 0; w < 2; w++) {
+                  if (subdata[y + x] !== subdata[y + w]) {
+                    subdata[y + x].yep.push(subdata[y + w]._id)
+                  }
+                }
+                data.push(subdata[y + x]);
+              }
+              y += 3;
+            } else if (y % 4 === 0 && (subdata[y + 3] === "" || !subdata[y + 3])) {
               for (let x = 0; x < 3; x++) {
                 for (let w = 0; w < 3; w++) {
                   if (subdata[y + x] !== subdata[y + w]) {
@@ -155,7 +183,7 @@ class Arrange extends Component {
       }
       data[ii].yep = temp;
     }
-
+    // console.log(data);
     // send to server
     API.updateSeatArrangement(data)
       .then(() => {

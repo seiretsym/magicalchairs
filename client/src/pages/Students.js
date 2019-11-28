@@ -11,7 +11,7 @@ class Students extends Component {
       yep: [],
       nope: [],
     },
-    display: "add",
+    display: "view",
   }
 
   componentDidMount() {
@@ -55,7 +55,7 @@ class Students extends Component {
       this.setState({
         students: students.data
       })
-      console.log(this.state.students);
+      // console.log(this.state.students);
     })
   }
 
@@ -153,8 +153,8 @@ class Students extends Component {
     })
   }
 
-  handleSelect = event => {
-    let select = document.getElementById("studentSelect");
+  handleSelect = (event, selectId) => {
+    let select = document.getElementById(selectId);
     let student = select.options[select.selectedIndex].value;
     if (student !== "none") {
       this.getSelectedStudent(student);
@@ -253,7 +253,7 @@ class Students extends Component {
               <div className="input-group-prepend bg-dark">
                 <span className="input-group-text bg-dark text-light w-100">Student</span>
               </div>
-              <select className="custom-select bg-dark text-light" id="studentSelect" onChange={event => this.handleSelect(event)}>
+              <select className="custom-select bg-dark text-light" id="studentSelect" onChange={event => this.handleSelect(event, "studentSelect")}>
                 <option value="none">Choose...</option>
                 {this.state.students.map((student, index) => {
                   return <option value={student._id} key={index}>{student.name}</option>
@@ -307,7 +307,7 @@ class Students extends Component {
               <div className="input-group-prepend bg-dark">
                 <span className="input-group-text bg-dark text-light w-100">Student</span>
               </div>
-              <select className="custom-select bg-dark text-light" id="studentSelect" onChange={event => this.handleSelect(event)}>
+              <select className="custom-select bg-dark text-light" id="studentPairSelect" onChange={event => this.handleSelect(event, "studentPairSelect")}>
                 <option value="none">Choose...</option>
                 {this.state.students.map((student, index) => {
                   return <option value={student._id} key={index}>{student.name}</option>
