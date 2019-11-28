@@ -4,7 +4,8 @@ import Header from './components/Header';
 import Nav from './components/Nav';
 // pages
 import Main from './pages/Main';
-
+// api
+import API from './utils';
 // stylesheets
 import './App.css';
 
@@ -30,11 +31,18 @@ class App extends Component {
     })
   }
 
+  dropDatabase = () => {
+    var conf = window.confirm("Are you really sure you want to drop the database?");
+    if (conf) {
+      API.dropDatabase().then(() => alert("Database Dropped")).then(window.location.reload())
+    }
+  }
+
   render() {
     return (
       <div className="container p-3">
         <Header />
-        <Nav auth={() => this.auth()} changeDisplay={this.changeDisplay} authed={this.state.authed} />
+        <Nav auth={() => this.auth()} dropDatabase={this.dropDatabase} changeDisplay={this.changeDisplay} authed={this.state.authed} />
         {this.state.display}
       </div>
     );

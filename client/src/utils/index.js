@@ -31,5 +31,8 @@ export default {
   },
   unpairStudent: function (data) {
     return axios.put("/api/students/unpair", data)
+  },
+  dropDatabase: function () {
+    return axios.delete("/api");
   }
 }

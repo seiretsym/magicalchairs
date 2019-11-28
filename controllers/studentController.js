@@ -121,5 +121,20 @@ module.exports = {
         console.log(error);
         res.status(500).json(error);
       })
+  },
+  dropDatabase: function (req, res) {
+    db.Student.drop().then(() => {
+      console.log("drop student")
+      db.Seat.drop().then(() => {
+        console.log("drop seat")
+        res.status(200);
+      }).catch(error => {
+        console.log(error);
+        res.status(500).json(error);
+      })
+    }).catch(error => {
+      console.log(error);
+      res.status(500).json(error);
+    })
   }
 };

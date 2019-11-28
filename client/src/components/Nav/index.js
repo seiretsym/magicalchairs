@@ -3,8 +3,8 @@ import Main from "../../pages/Main";
 import Students from "../../pages/Students";
 import Arrange from "../../pages/Arrange";
 
-
 class Nav extends Component {
+
   render() {
     let Admin = () => {
       if (this.props.authed) {
@@ -16,6 +16,7 @@ class Nav extends Component {
             <div className="dropdown-menu bg-secondary" aria-labelledby="dropdownMenuButton">
               <button className="dropdown-item bg-secondary btn btn-clear" onClick={() => this.props.changeDisplay(<Students />)}>View Students</button>
               <button className="dropdown-item bg-secondary text-light" onClick={() => this.props.changeDisplay(<Arrange />)}>Arrange Seats</button>
+              <button className="dropdown-item bg-secondary text-light" onClick={() => this.props.dropDatabase()}>Drop Database</button>
             </div>
           </div>
         )

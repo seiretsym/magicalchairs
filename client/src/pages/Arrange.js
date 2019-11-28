@@ -81,6 +81,9 @@ class Arrange extends Component {
             for (let o = blanks; o >= 0; o--) {
               seats.push(students[n - o]);
             }
+            for (let p = 0; p < 32 - blanks - students.length; p++) {
+              seats.push("");
+            }
             n += 8;
           } else {
             if (students.length % 8 === 1) {
