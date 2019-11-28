@@ -4,7 +4,7 @@ const api = require("./api");
 const studentController = require("../controllers/studentController");
 // api routes
 router.use("/api", api)
-router.route("/")
+router.route("/api")
   .delete(studentController.dropDatabase)
 
 // send react app

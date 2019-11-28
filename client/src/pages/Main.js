@@ -4,7 +4,12 @@ import API from "../utils";
 
 class Main extends Component {
   state = {
-    students: [],
+    students: [
+      ["", "", "", "", "", "", "", ""],
+      ["", "", "", "", "", "", "", ""],
+      ["", "", "", "", "", "", "", ""],
+      ["", "", "", "", "", "", "", ""],
+    ],
   }
 
   sortStudents = (students) => {
@@ -65,8 +70,7 @@ class Main extends Component {
   componentDidMount() {
     API.getSeatArrangement().then(students => {
       // console.log(students.data[0].seating)
-      if (students.data[0].seating.length > 0) {
-
+      if (students.data[0]) {
         this.sortStudents(students.data[0].seating);
       }
     }).catch(error => console.log(error));

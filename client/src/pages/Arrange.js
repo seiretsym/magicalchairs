@@ -4,7 +4,12 @@ import API from "../utils";
 
 class Arrange extends Component {
   state = {
-    students: [],
+    students: [
+      ["", "", "", "", "", "", "", ""],
+      ["", "", "", "", "", "", "", ""],
+      ["", "", "", "", "", "", "", ""],
+      ["", "", "", "", "", "", "", ""],
+    ],
   }
 
   seatStudents = (students) => {
@@ -199,7 +204,8 @@ class Arrange extends Component {
 
   getStudents = () => {
     API.getStudents().then(students => {
-      this.seatStudents(students.data)
+      if (students.data.length > 0)
+        this.seatStudents(students.data)
     })
       .catch(error => console.log(error));
   }

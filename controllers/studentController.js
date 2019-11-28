@@ -123,11 +123,11 @@ module.exports = {
       })
   },
   dropDatabase: function (req, res) {
-    db.Student.drop().then(() => {
+    db.Student.remove({}).then(() => {
       console.log("drop student")
-      db.Seat.drop().then(() => {
+      db.Seat.remove({}).then(bye => {
         console.log("drop seat")
-        res.status(200);
+        res.status(200).json(bye);
       }).catch(error => {
         console.log(error);
         res.status(500).json(error);

@@ -12,7 +12,7 @@ import './App.css';
 class App extends Component {
 
   state = {
-    authed: true,
+    authed: false,
     display: <Main />
   }
 
@@ -32,9 +32,12 @@ class App extends Component {
   }
 
   dropDatabase = () => {
-    var conf = window.confirm("Are you really sure you want to drop the database?");
+    let conf = window.confirm("Are you really sure you want to drop the database?");
     if (conf) {
-      API.dropDatabase().then(() => alert("Database Dropped")).then(window.location.reload())
+      API.dropDatabase().then(() => {
+        alert("Database Dropped");
+        window.location.reload();
+      })
     }
   }
 
