@@ -131,6 +131,22 @@ class Students extends Component {
       })
   }
 
+  handlePairAdd = () => {
+    let pairSelect = document.getElementById("pairSelect");
+    let id = pairSelect.options[pairSelect.selectedIndex].value;
+    let data = {
+      id: this.state.selectedStudent._id,
+      pairId: id,
+    }
+    API.pairStudent(data)
+      .then(() => {
+        this.getSelectedStudent(this.state.selectedStudent._id)
+      })
+      .catch(error => {
+        console.log(error)
+      });
+  }
+
   handlePairRemove = id => {
     let data = {
       id: this.state.selectedStudent._id,
@@ -262,7 +278,7 @@ class Students extends Component {
             </div>
             <div className="input-group mb-2">
               <div className="input-group-prepend bg-dark">
-                <span className="input-group-text bg-dark text-light w-100">Can't work with</span>
+                <span className="input-group-text bg-dark text-light w-100">can't work with</span>
               </div>
               <select className="custom-select bg-dark text-light" id="cantSelect">
                 <option value="none">Choose...</option>
@@ -313,6 +329,23 @@ class Students extends Component {
                   return <option value={student._id} key={index}>{student.name}</option>
                 })}
               </select>
+            </div>
+            <div className="input-group mb-2">
+              <div className="input-group-prepend bg-dark">
+                <span className="input-group-text bg-dark text-light w-100">has worked with</span>
+              </div>
+              <select className="custom-select bg-dark text-light" id="pairSelect">
+                <option value="none">Choose...</option>
+                {this.state.students.map((student, index) => {
+                  if (student._id !== this.state.selectedStudent._id && this.state.selectedStudent.nope.map(target => target._id).indexOf(student._id) === -1) {
+                    return <option value={student._id} key={index}>{student.name}</option>
+                  }
+                  return null;
+                })}
+              </select>
+              <div className="input-group-append">
+                <button className="btn btn-dark btn-outline-light" type="button" onClick={() => this.handlePairAdd()}>Add</button>
+              </div>
             </div>
             <div className="row">
               <div className="col-md bg-dark rounded mx-3 p-3">

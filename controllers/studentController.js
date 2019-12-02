@@ -103,6 +103,25 @@ module.exports = {
         res.status(500).json(error);
       })
   },
+  pairOne: function (req, res) {
+    let id = ObjectId(req.body.id);
+    let pairId = ObjectId(req.body.pairId);
+    db.Student
+      .updateOne({ _id: id }, { $addToSet: { yep: pairId } }, { new: true })
+      .then(uhhuh => {
+        console.log(uhhuh)
+        db.Student
+          .updateOne({ _id: pairId }, { $addToSet: { yep: id } }, { new: true })
+          .then(yas => {
+            console.log(yas);
+            res.status(200).json(yas);
+          })
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).json(error);
+      })
+  },
   unpairOne: function (req, res) {
     let id = ObjectId(req.body.id);
     let pairId = ObjectId(req.body.pairId);
